@@ -1,0 +1,64 @@
+{
+  "compilerOptions": {
+    // TypeScript 类型声明文件，包含 Node.js 类型
+    "types": ["node","vuex-map-fields", "vuex-typed"],
+    // 目标 ECMAScript 版本
+    "target": "ES2020",
+    // 启用类字段定义
+    "useDefineForClassFields": true,
+    // 模块类型
+    "module": "ESNext",
+    // 编译时可用的库
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    // 跳过声明文件的类型检查
+    "skipLibCheck": true,
+ 
+    /* Bundler mode（打包器模式） */
+    // 模块解析策略（在 bundler 模式下使用）
+    "moduleResolution": "bundler",
+    // 允许导入 TypeScript 文件时省略后缀
+    "allowImportingTsExtensions": true,
+    // 允许导入 JSON 文件作为模块
+    "resolveJsonModule": true,
+    // 将每个文件视为独立的模块
+    "isolatedModules": true,
+    // 不生成输出文件
+    "noEmit": true,
+    // 保留 JSX 代码
+    "jsx": "preserve",
+ 
+    /* Linting（代码检查） */
+    // 开启所有严格类型检查选项
+    "strict": true,
+    // 报告未使用的局部变量
+    "noUnusedLocals": true,
+    // 报告未使用的函数参数
+    "noUnusedParameters": true,
+    // 报告在 switch 语句中的 case 语句贯穿
+    "noFallthroughCasesInSwitch": true,
+ 
+    // 基准 URL，用于解析非相对模块名称
+    "baseUrl": ".",
+    // 路径映射，用于将导入路径映射到基准 URL 下的特定路径
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "element-plus/*": ["node_modules/element-plus/*"],
+      "vuex": ["./node_modules/vuex/types"] 
+    }
+  },
+  // 需要进行编译的文件路径模式
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+  ],
+  // 引用其他 TypeScript 配置文件的路径
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
+}
