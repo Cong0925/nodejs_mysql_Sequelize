@@ -56,11 +56,5 @@ function levenshteinDistance(a:any, b:any) {
       }
     }
   }
-  console.log(matrix[b.length][a.length])
   return matrix[b.length][a.length];
 }
-
-const str = '11111province_college_major';
-const arr = ['sdfsdfs', 'province_college_majorID', 'user_name_mmid', 'user_name_id', 'user_name_qweID', 'asdasd'];
-
-console.log(findMostSimilarWithId(str, arr));

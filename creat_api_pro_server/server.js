@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const createProjectWithSQL = require('./utils/createProWithSQL/createProject')
-// const createProjectWithORM = require('./utils/createProWithORM/createProject')
+// const createProjectWithSQL = require('./utils/createProWithSQL/createProject')
+const createProjectWithORM = require('./utils/createProWithORM/createProject')
 const createFile = require('./utils/createFile')
 // 数据库连接配置
 const mysql = require('mysql');
@@ -143,8 +143,8 @@ wss.on('connection', (ws) => {
           createFile(params, ws).then((res) => {
             console.log(res);
             // 执行生成项目
-            createProjectWithSQL(ws) // 生成 sql语句的接口项目
-            // createProjectWithORM(ws) // 生成 ORM框架的接口项目
+            // createProjectWithSQL(ws) // 生成 sql语句的接口项目
+            createProjectWithORM(ws) // 生成 ORM框架的接口项目
           }).catch(err => {
             console.log(err);
           })
