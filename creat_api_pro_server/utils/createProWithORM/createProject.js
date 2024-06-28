@@ -41,7 +41,7 @@ const createProject = async (ws) => {
         return;
       }
       // 创建成功后
-      let msg = `Folder ${config.projectName} created successfully!`
+      let msg = `文件夹 ${config.projectName} 创建成功!`
       console.error(msg);
       ws.send(JSON.stringify({ results: msg, code: '2000', type: 'creating' }));
 

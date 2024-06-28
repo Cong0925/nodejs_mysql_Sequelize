@@ -68,7 +68,7 @@ import { ElMessageBoxAlertTool } from "@/utils/elementPlusMessageBoxTool";
 // 
 watch(() => state.isCreated, (newVal: any) => {
   if(newVal === true){
-    ElMessageBoxAlertTool('项目生成成功',null)
+    ElMessageBoxAlertTool('程序运行 结束',null)
   }
 })
 
