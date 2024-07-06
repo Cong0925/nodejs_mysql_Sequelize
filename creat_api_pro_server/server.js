@@ -10,6 +10,9 @@ const WebSocketServer = require('ws').Server;
 // 创建WebSocket服务器的实例
 const wss = new WebSocketServer({ port: 3000 });
 
+// 数据库白名单，不进行返回
+let tableWiteList = ['mysql', 'information_schema', 'performance_schema', 'sys', 'innodb'];
+
 // 创建数据库连接的函数
 const createConnection = (connectionInfo) => {
   const connection = mysql.createConnection({
@@ -61,11 +64,7 @@ wss.on('connection', (ws) => {
             }
             // 列出非系统库
             results.forEach((database, index) => {
-              if (database.Database === 'mysql' ||
-                database.Database === 'information_schema' ||
-                database.Database === 'performance_schema' ||
-                database.Database === 'sys' ||
-                database.Database === 'innodb') {
+              if (tableWiteList.includes(database.Database)) {
                 results.splice(index, 1);
               }
             });
@@ -98,7 +97,7 @@ wss.on('connection', (ws) => {
               ws.send(JSON.stringify({ error: err.stack, code: '2001' }));
               return;
             }
-            ws.send(JSON.stringify({ results: results, code: '2000', type: 'query_table_fields',curVal:json.curVal }));
+            ws.send(JSON.stringify({ results: results, code: '2000', type: 'query_table_fields', curVal: json.curVal }));
           });
           break;
         case 'query_views':
@@ -161,7 +160,7 @@ wss.on('connection', (ws) => {
               ws.send(JSON.stringify({ error: err.stack, code: '2001' }));
               return;
             }
-            ws.send(JSON.stringify({ results: results, code: '2000', type: 'query_test',curVal:json.curVal }));
+            ws.send(JSON.stringify({ results: results, code: '2000', type: 'query_test', curVal: json.curVal }));
           });
           break;
         default:

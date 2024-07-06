@@ -201,6 +201,7 @@ const solveBackMsg = async () => {
       state.allTables = data.results.map((item: any) => {
         return item[`Tables_in_${Session.get('connectionInfo').database}`];
       });
+      state.allTables = state.allTables.filter(item => item !== 'user_token');
       state.checkedTables.push(state.allTables[0]);
       state.selectedNowTable = state.allTables[0];
       state.checkedTables.splice(0, 1);
