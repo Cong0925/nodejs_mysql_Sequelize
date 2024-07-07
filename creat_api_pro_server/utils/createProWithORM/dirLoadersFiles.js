@@ -161,8 +161,7 @@ const interceptLoader = (app) => {
     // 验证token
     if (req.headers.token) {
       // 提取实际的 token 值
-      let token = req.headers.token.split(': ')[1].trim().replace(/"/g, '').slice(0, -1);
-      jwt.verify(String(token), CONFIG.publicKeyPem, { algorithms: ['RS256'] }, (err, decoded) => {
+      jwt.verify(req.headers.token, CONFIG.publicKeyPem, { algorithms: ['RS256'] }, (err, decoded) => {
         if (err) {
           console.log('过期，或者错误', err);
           responseHandler.handleStatus200(res, { code: RET.SESSIONERR, message: \`\${error_map_CN[RET.SESSIONERR]}, 或者 token过期\` });
