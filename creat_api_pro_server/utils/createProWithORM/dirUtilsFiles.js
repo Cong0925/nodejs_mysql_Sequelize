@@ -6,7 +6,6 @@ const path = require('path');
 const dirConfigFiles = (data, ws) => {
   const { thePath, theContData } = data;
   let theFiles = [
-    'checkToken', // 校验token 方法 文件
     'createPrimaryKey', // 创建主键方法 文件
     'createToken', // 创建token 方法 文件
     'encryptData', // 加密数据方法 文件
@@ -16,7 +15,6 @@ const dirConfigFiles = (data, ws) => {
     'responseCode', // 响应状态码 文件
     'responseHandler', // 响应处理方法 文件
   ];
-  createChickToken(data, ws);
   createPrimaryKey(data, ws)
   createToken(data, ws)
   createEncryptData(data, ws)
@@ -27,30 +25,12 @@ const dirConfigFiles = (data, ws) => {
   createResponseHandler(data, ws)
 }
 
-
-// 生成 checkToken.js
-const createChickToken = (data, ws) => {
-  const { thePath, theContData } = data;
-  let CONTENT = 
-  `// checkToken.js token 验证
-  `
-
-  const params = {
-    thePath: path.join(thePath, 'checkToken.js'),
-    data: CONTENT
-  }
-
-  createFile(params, ws).then((res) => {
-    console.log(res)
-  }).catch((err) => {
-    console.log(err)
-  })
-}
 //  生成 createPrimaryKey.js
 const createPrimaryKey = (data, ws) => {
   const { thePath, theContData } = data;
 
-  let CONTENT = `// createPrimaryKey.js
+  let CONTENT = `// createPrimaryKey.js 业务主键生成方法
+  
 // generateBusinessKey1.js
 const crypto = require('crypto');
 const process = require('process');
@@ -128,6 +108,22 @@ const createToken = (data, ws) => {
   const { thePath, theContData } = data;
   let CONTENT = 
   `// createToken.js token生成文件
+const jwt = require('jsonwebtoken');
+const CONFIG = require('../config/index');
+
+// 生成包含用户信息的 JWT Token
+function generateToken(params, key = CONFIG.privateKeyPem, expire = CONFIG.token_expire_time) {
+  const payload = {
+    user_id: params,
+  };
+
+  const token = jwt.sign(payload, key, { algorithm: 'RS256',expiresIn: expire });
+  return token;
+}
+
+module.exports = {
+  generateToken,
+}
   `
 
   const params = {
@@ -182,7 +178,7 @@ module.exports = {
 // const crypto = require('crypto');
 // const {encrypt,decrypt} = require('./encryptData'); 导入方法
 // let str = '123456'
-// let aa = encrypt(str) 加密，这一步一般客户端做
+// let aa = encrypt(str) 加密，这一步一般客户端做，测试添加数据时可以手动加密
 // console.log(aa)
 // let bb = decrypt(aa) 解密
 // console.log(bb)`

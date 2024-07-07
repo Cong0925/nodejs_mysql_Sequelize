@@ -51,6 +51,8 @@ const createIndexFile = (data, ws) => {
   const { thePath, theContData } = data;
 
   const CONTENT = `const CONFIG = {
+  token_expire_time: 7 * 24 * 60 * 60 * 1000, // 一个星期
+  routesWhitelist: ['login', 'regist'],
   port: 8888,
   publicKeyPem: \`-----BEGIN RSA PUBLIC KEY-----
 MIIBCgKCAQEA5KmFvTPK1ZRrUwnS7M3Kb+/cxOOaGdNo67v8AzEvPOM7S8mrkCou

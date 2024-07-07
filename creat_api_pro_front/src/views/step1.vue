@@ -111,7 +111,7 @@ const solveBackMsg = async () => {
       // console.log('message', store.getters.getMessage)
     }
     if (data.type === 'query_database') {
-      // 如果是查询结果，则将其显示在页面上
+      // 如果是查询结果，则将其显示在页面上      
       const results = data.results;
       state.sqlDatabases = results
       // console.log(state.sqlDatabases);

@@ -17,6 +17,9 @@ const dirConfigFiles = (data, ws) => {
   // 生成 视图 模型文件
   createViewModels(data, ws)
 
+  // 生成 user_token 模型文件
+  createUserTokenModels(data, ws)
+
 }
 
 // 生成 index.js 文件
@@ -66,6 +69,7 @@ const createIndexFile = (data, ws) => {
   ${t1}
 
   ${t2}
+  db.user_token = require("./user_token.model.js")(sequelize, Sequelize); 
   
   module.exports = db;
   `
@@ -124,7 +128,7 @@ const createTableModels = (data, ws) => {
           return 0
         }
         if (itm.Default === 'CURRENT_TIMESTAMP') {
-          return `Sequelize.literal('CURRENT_TIMESTAMP')`
+          return `Sequelize.NOW`
         }
         if (itm.Default === null) {
           if (/^varchar\(\d+\)$/.test(itm.Type)) {
@@ -225,6 +229,88 @@ module.exports = (sequelize, Sequelize) => {
     })
 
   })
+}
+
+const createUserTokenModels = (data,ws)=>{
+  const { thePath, theContData } = data;
+  let CONTENT =
+  ` // user_token.model.js
+module.exports = (sequelize, Sequelize) => {
+  // 定义 UserToken 模型
+  const UserToken = sequelize.define('user_token', {
+    auto_id: {
+      type: Sequelize.BIGINT,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    user_id: {
+      type: Sequelize.BIGINT,
+      primaryKey: false
+    },
+    token: {
+      type: Sequelize.STRING(512),
+      allowNull: false
+    },
+    user_type: {
+      type: Sequelize.TINYINT,
+      allowNull: false
+    },
+    is_valid: {
+      type: Sequelize.TINYINT,
+      primaryKey: false,
+      allowNull: false,
+      defaultValue: 0
+    },
+    is_delete: {
+      type: Sequelize.TINYINT,
+      primaryKey: false,
+      allowNull: false,
+      defaultValue: 0
+    },
+    expire_time: {
+      type: Sequelize.DATE,
+      primaryKey: false,
+      allowNull: false,
+      defaultValue: Sequelize.NOW
+    },
+    create_time: {
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.NOW
+    },
+    update_time: {
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.NOW
+    }
+  }, {
+    tableName: 'user_token', // 指定表名
+    timestamps: false, // 关闭自动添加时间戳
+    freezeTableName: true, // 关闭自动将表名转换成复数形式 true关闭。false打开
+  });
+
+
+  // 同步模型到数据库（创建表）
+  sequelize.sync()
+    .then(() => {
+      console.log('UserToken 表已 同步！');
+    })
+    .catch((err) => {
+      console.error('创建表时出错: ', err);
+    });
+
+  return UserToken;
+}
+  `
+  let params = {
+    thePath: path.join(thePath, `/user_token.model.js`),
+    data: CONTENT
+  }
+
+  createFile(params, ws).then((res) => {
+    console.log(res)
+  }).catch((err) => {
+    console.log(err)
+  })
+
 }
 
 module.exports = dirConfigFiles;

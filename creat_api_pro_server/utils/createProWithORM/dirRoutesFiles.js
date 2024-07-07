@@ -44,8 +44,10 @@ const creatIndex = (data, ws) => {
     `const express = require('express');` + '\n' +
     `const router = express.Router();` + '\n' + '\n' +
     `// 引入路由` + '\n' +
+    `const serviceRoute = require('../service/index');` + '\n' +
     `${sentenceRequire}` + '\n' + '\n' +
     `// 使用路由` + '\n' +
+    `router.use('/', serviceRoute);`  + '\n' +
     `${sentenceUse}` + '\n' + '\n' +
     `// 导出路由` + '\n' +
     `module.exports = router;`
@@ -131,14 +133,14 @@ const createViewsRoute = (data, ws) => {
 
   selectedViews.forEach((item, index) => {
     let t1 = item.charAt(0).toUpperCase() + item.slice(1)
-    let t2 = 
-    `// 读取（查询）所有数据 或者条件查询
+    let t2 =
+      `// 读取（查询）所有数据 或者条件查询
 router.get('/${item}', ${t1}.findAll);
 // 根据ID 获取 特定数据
 router.get('/${item}/:id', ${t1}.findOne);`
 
-    let CONTENT = 
-    `// routes/${selectedViewsDeal[index]}.js
+    let CONTENT =
+      `// routes/${selectedViewsDeal[index]}.js
 const ${t1} = require("../controllers/${item}.controller.js");
 const express = require('express');
 const router = express.Router();
