@@ -31,6 +31,8 @@
       <el-button type="primary" @click="handleNext" :disabled="state.isCreated">{{ state.isCreated === true ? '完成' :
         '开始'
         }}</el-button>
+      <el-button v-if="state.isCreated === true " type="primary" @click="goFirst">结束</el-button>
+
     </div>
   </el-card>
 </template>
@@ -118,6 +120,7 @@ const saveConfig = async () => {
     ...Session.get('Config'),
     ...updatedConfig,
   };
+  console.log(newDataConfigLocal)
   Session.set('Config', newDataConfigLocal);
 }
 // 生成
@@ -137,5 +140,11 @@ const handleNext = async () => {
     state.log += '\n' + '-----  BEGINING  -----' + '\n'
 
   }
+}
+
+// 回到首页
+const goFirst = ()=>{
+  store.dispatch('stepMark/setActiveStep', 1)
+  router.push({ name: 'step1', params: {} })
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%;display: flex; flex-direction: column; height: 100vh;">
+  <div style="width: 100%;display: flex; flex-direction: column; ">
     <div class="header" style="height: 100px;">
       <el-steps style="max-width: 1200px;margin:0 auto;" :active="state.activeStep" align-center>
         <el-step title="准备" :icon="Loading" />
@@ -13,6 +13,7 @@
     </div>
     <div class="main" style="min-height: calc(100vh - 200px); ">
       <router-view></router-view>
+      <FloatBall />  <!-- 放这里就全局显示 -->
     </div>
     <!-- <div class="footer" style="height: 100px;">
 
@@ -21,15 +22,17 @@
 </template>
 
 <script lang="ts" setup>
+import FloatBall from './components/FloatBall.vue'
 import { Coin,  Document, Loading,Files,CircleCheck,Printer,DocumentChecked } from '@element-plus/icons-vue'
 import { reactive, watch } from 'vue';
 import { useStore } from 'vuex';
-import { Session } from './utils/cookieSet';
 const store = useStore()
 const state = reactive({
-  activeStep: Session.get('activeStep') || 1,
+  activeStep: store.getters.getActiveStep || 1,
 })
+
 watch(() => store.getters.getActiveStep, (newVal) => {
+  
   if(newVal >0 && newVal <=7 ){
     state.activeStep = newVal
   }

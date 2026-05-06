@@ -1,3 +1,9 @@
+/* 引入其他所有 CSS 文件 */
+@import "./style.css";
+@import "./common.css";
+@import "./page.css";
+
+/* 全局通用 */
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

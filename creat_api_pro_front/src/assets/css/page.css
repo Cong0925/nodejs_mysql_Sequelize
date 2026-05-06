@@ -1,0 +1,41 @@
+.now-actived {
+  background-color: #d2f0ff;
+}
+
+.table-checkbox-item {
+  width: 100%;
+  overflow: hidden;
+}
+
+.checkbox-text {
+  display: inline-block;
+  max-width: 130px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+.table-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.checkbox-scroll-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.checkbox-scroll-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.checkbox-scroll-container::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.checkbox-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

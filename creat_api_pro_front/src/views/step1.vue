@@ -25,7 +25,8 @@
             <el-input v-model="state.connectionInfo.database" placeholder="请输入数据库名"></el-input>
           </el-form-item> -->
           <el-form-item>
-            <el-button style="margin: 0 auto;" type="primary" @click="connectToDatabase">连接数据库</el-button>
+            <el-button style="margin: 0 auto;" type="primary" :loading="isConnecting" :disabled="isConnecting"
+              @click="connectToDatabase">连接数据库</el-button>
           </el-form-item>
         </el-form>
         <br>
@@ -50,7 +51,7 @@
 
 <script setup lang="ts">
 import router from '@/router';
-import { reactive, watch } from 'vue';
+import { reactive, watch, ref } from 'vue';
 import CONFIG from "@/config/index"
 import { useStore } from 'vuex';
 const store = useStore();
@@ -69,18 +70,24 @@ const state: State = reactive({
   sqlDatabases: [],
   selectedDatabase: '',
 })
+
+const isConnecting = ref(false);
+
 // 建立ws连接
 const connectToDatabase = async () => {
+
+  isConnecting.value = true;
   // 数据库连接参数
   const connectionData = {
     operation: 'connect',
     connectionInfo: state.connectionInfo
   };
   try {
-    // 调用vuex上的连接方法
-    await store.dispatch('websocket/connect', { connectionData })
+    await store.dispatch('websocket/connect', { connectionData });
+    // 注意：成功后的状态在 solveBackMsg 中重置（收到数据库列表后）
   } catch (error) {
-    console.log(error)
+    console.error(error);
+    isConnecting.value = false;
   }
 }
 // 监听返回值
@@ -100,6 +107,7 @@ const solveBackMsg = async () => {
   let data = store.getters.getMessage
   if (data.error) {
     console.error(data.error);
+    isConnecting.value = false;
   } else if (data.code === '2000') {
     if (data.type === 'connect') {
       // 构建要发送的查询数据
@@ -114,11 +122,13 @@ const solveBackMsg = async () => {
       // 如果是查询结果，则将其显示在页面上      
       const results = data.results;
       state.sqlDatabases = results
+      isConnecting.value = false;
       // console.log(state.sqlDatabases);
     }
 
   } else if (data.code === '2001') {
     console.log('数据库连接错误，检查参数')
+    isConnecting.value = false;
   }
 }
 

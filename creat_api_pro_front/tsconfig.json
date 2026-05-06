@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     // TypeScript 类型声明文件，包含 Node.js 类型
-    "types": ["node","vuex-map-fields", "vuex-typed"],
+    // "types": ["node","vuex-map-fields", "vuex-typed"],
+    "types": ["node"],
     // 目标 ECMAScript 版本
     "target": "ES2020",
     // 启用类字段定义
@@ -38,7 +39,8 @@
     "noFallthroughCasesInSwitch": true,
  
     // 基准 URL，用于解析非相对模块名称
-    "baseUrl": ".",
+    "baseUrl": ".", // TS 7弃用了
+    "ignoreDeprecations": "6.0", // 屏蔽 TS6 相关弃用警告
     // 路径映射，用于将导入路径映射到基准 URL 下的特定路径
     "paths": {
       "@/*": [
