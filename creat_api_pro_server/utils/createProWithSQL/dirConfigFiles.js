@@ -14,7 +14,7 @@ const createDbFile = (data,ws)=>{
   const { thePath, theContData } = data;
 
   const CONTENT = `// db.js` + '\n' +
-  `const mysql = require('mysql');` + '\n' + '\n' +
+  `const mysql = require('mysql2');` + '\n' + '\n' +
   `// 创建数据库连接` + '\n' +
   `const connection = mysql.createConnection({` + '\n' +
   `  host: "${theContData.host}",` + '\n' +

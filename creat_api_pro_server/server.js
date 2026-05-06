@@ -4,7 +4,7 @@ const path = require('path');
 const createProjectWithORM = require('./utils/createProWithORM/createProject')
 const createFile = require('./utils/createFile')
 // 数据库连接配置
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const WebSocketServer = require('ws').Server;
 
 // 创建WebSocket服务器的实例
